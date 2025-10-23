@@ -1,6 +1,6 @@
 package org.konneyj;
 
-public class Main {
+public class DataTypes {
     public static void main(String[] args) {
         // byte
         byte minByte = -128;
