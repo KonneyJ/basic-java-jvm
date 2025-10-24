@@ -39,6 +39,10 @@ public class Calculator {
                         System.out.println("Результат вычисления: " + result);
                         break;
                     case "/":
+                        if (secondNumber == 0) {
+                            System.out.println("Делить на ноль нельзя!");
+                            break;
+                        }
                         result = firstNumber / secondNumber;
                         System.out.println("Результат вычисления: " + result);
                         break;
