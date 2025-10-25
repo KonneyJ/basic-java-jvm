@@ -1,8 +1,8 @@
-package org.konneyj;
+package org.konneyj.debug;
 
 import java.util.Random;
 
-public class BubbleSorted {
+public class BubbleSortedDebugger {
     public static void main(String[] args) {
         Random random = new Random();
         int[] arr = new int[random.nextInt(5, 20)];
@@ -19,6 +19,9 @@ public class BubbleSorted {
         }
         System.out.println(str);
 
+        // Вариант с ошибкой
+        // for (int i = n; i >= 1; i--) {
+        // Правильный вариант
         for (int i = n - 1; i >= 1; i--) {
             for (int j = 0; j < i; j++) {
                 if (arr[j] > arr[j + 1]) {
