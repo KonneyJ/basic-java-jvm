@@ -17,6 +17,7 @@ public class Main {
         sortStudentByComparator();
         checkIntroduce();
         checkInterfaceAndAbstractClass();
+        checkStreamAPI();
     }
 
     public static void checkException() {
@@ -136,6 +137,27 @@ public class Main {
             sum += shape.getArea();
         }
         System.out.println("Сумма площадей круга " + circle + " и прямоугольника " + rectangle + " = " + sum);
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkStreamAPI() {
+        List<Student> list = new ArrayList<>();
+
+        // Заполняем список студентами
+        list.add(new Student("Afina", 28, 10));
+        list.add(new Student("Julie", 25, 8));
+        list.add(new Student("Anna", 23, 9));
+        list.add(new Student("Ane", 18, 7));
+        list.add(new Student("Jane", 45, 4));
+        list.add(new Student("Annete", 28, 5));
+
+        double grade = list.stream()
+                .filter(s -> s.getAge() > 20)
+                .filter(s -> s.getName().startsWith("A"))
+                .mapToDouble(Student::getAverageGrade)
+                .average()
+                .orElse(0.0);
+        System.out.println("Средний балл студентов: " + grade);
         System.out.println("-".repeat(50));
     }
 }
