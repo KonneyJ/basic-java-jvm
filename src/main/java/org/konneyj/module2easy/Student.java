@@ -2,7 +2,7 @@ package org.konneyj.module2easy;
 
 import java.util.Objects;
 
-public class Student {
+public class Student extends Person {
     private String name;
     private int age;
     private double averageGrade;
@@ -20,6 +20,11 @@ public class Student {
         this.name = name;
         this.age = age;
         this.averageGrade = averageGrade;
+    }
+
+    @Override
+    public void introduce() {
+        System.out.println("Всем привет! Я объект класса Student");;
     }
 
     public String getName() {

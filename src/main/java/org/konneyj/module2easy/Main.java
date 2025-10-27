@@ -11,6 +11,7 @@ public class Main {
         createStudent();
         checkEqualsAndHashCode();
         sortStudentByComparator();
+        checkIntroduce();
     }
 
     public static void checkException() {
@@ -95,6 +96,22 @@ public class Main {
 
         for (Student student : list) {
             System.out.println(student);
+        }
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkIntroduce() {
+        Person[] arr = new Person[6];
+
+        arr[0] = new Person();
+        arr[1] = new Student();
+        arr[2] = new Teacher();
+        arr[3] = new Person();
+        arr[4] = new Teacher();
+        arr[5] = new Student();
+
+        for (Person person : arr) {
+            person.introduce();
         }
         System.out.println("-".repeat(50));
     }
