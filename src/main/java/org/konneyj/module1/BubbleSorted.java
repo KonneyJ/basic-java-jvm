@@ -1,4 +1,4 @@
-package org.konneyj;
+package org.konneyj.module1;
 
 import java.util.Arrays;
 import java.util.Random;
