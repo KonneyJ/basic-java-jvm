@@ -1,5 +1,6 @@
 package org.konneyj;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class ArraySearch {
@@ -11,11 +12,8 @@ public class ArraySearch {
             nums[i] = random.nextInt(1, 20);
         }
 
-        String str = "Значения в массиве: ";
-        for (int i = 0; i < nums.length; i++) {
-            str += nums[i] + ", ";
-        }
-        System.out.println(str);
+        System.out.println("Значения в массиве: ");
+        System.out.println(Arrays.toString(nums));
         
         int maxDigit = searchMax(nums);
         System.out.println("Максимальное значение в массиве: " + maxDigit);

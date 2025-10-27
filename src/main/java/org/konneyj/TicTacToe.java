@@ -49,7 +49,7 @@ public class TicTacToe {
                 System.out.print(field[i][j] + " | ");
             }
             System.out.println();
-            System.out.println("-----------------");
+            System.out.println("-".repeat(15));
         }
     }
 

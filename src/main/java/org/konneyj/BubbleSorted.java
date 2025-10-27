@@ -1,5 +1,6 @@
 package org.konneyj;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class BubbleSorted {
@@ -13,11 +14,7 @@ public class BubbleSorted {
         }
 
         System.out.println("Исходный массив длиной " + n + " элементов:");
-        String str = "";
-        for (int num : arr) {
-            str += num + ", ";
-        }
-        System.out.println(str);
+        System.out.println(Arrays.toString(arr));
 
         for (int i = n - 1; i >= 1; i--) {
             for (int j = 0; j < i; j++) {
@@ -30,10 +27,6 @@ public class BubbleSorted {
         }
 
         System.out.println("Отсортированный массив:");
-        String str1 = "";
-        for (int num : arr) {
-            str1 += num + ", ";
-        }
-        System.out.println(str1);
+        System.out.println(Arrays.toString(arr));
     }
 }

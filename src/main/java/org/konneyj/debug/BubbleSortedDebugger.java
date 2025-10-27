@@ -1,5 +1,6 @@
 package org.konneyj.debug;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class BubbleSortedDebugger {
@@ -13,11 +14,7 @@ public class BubbleSortedDebugger {
         }
 
         System.out.println("Исходный массив длиной " + n + " элементов:");
-        String str = "";
-        for (int num : arr) {
-            str += num + ", ";
-        }
-        System.out.println(str);
+        System.out.println(Arrays.toString(arr));
 
         // Вариант с ошибкой
         // for (int i = n; i >= 1; i--) {
@@ -33,10 +30,6 @@ public class BubbleSortedDebugger {
         }
 
         System.out.println("Отсортированный массив:");
-        String str1 = "";
-        for (int num : arr) {
-            str1 += num + ", ";
-        }
-        System.out.println(str1);
+        System.out.println(Arrays.toString(arr));
     }
 }
