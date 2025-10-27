@@ -4,6 +4,9 @@ import org.konneyj.module2easy.shapes.Circle;
 import org.konneyj.module2easy.shapes.Rectangle;
 import org.konneyj.module2easy.shapes.Shape;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,6 +21,7 @@ public class Main {
         checkIntroduce();
         checkInterfaceAndAbstractClass();
         checkStreamAPI();
+        checkLoadFromFile();
     }
 
     public static void checkException() {
@@ -158,6 +162,31 @@ public class Main {
                 .average()
                 .orElse(0.0);
         System.out.println("Средний балл студентов: " + grade);
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkLoadFromFile() {
+        FileReader fileReader = null;
+        BufferedReader br = null;
+        try {
+            fileReader = new FileReader("bufferedreader.txt");
+            br = new BufferedReader(fileReader);
+
+            while (br.ready()) {
+                String line = br.readLine();
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Получено исключение " + e.getClass());
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    System.out.println("Получено исключение " + e.getClass());
+                }
+            }
+        }
         System.out.println("-".repeat(50));
     }
 }
