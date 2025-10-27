@@ -4,6 +4,7 @@ public class Main {
     public static void main(String[] args) {
         checkException();
         createStudent();
+        checkEqualsAndHashCode();
     }
 
     public static void checkException() {
@@ -32,5 +33,19 @@ public class Main {
         System.out.println(student1);
         System.out.println(student2);
         System.out.println(student3);
+    }
+
+    public static void checkEqualsAndHashCode() {
+        Student student1 = new Student("Sofia", 28, 10);
+        Student student2 = new Student("Julie", 25, 10);
+        Student student3 = new Student("Sofia", 28, 10);
+
+        System.out.println("Проверка на неравенство объектов: " + student1 + " и " + student2);
+        boolean equal1 = student1.equals(student2);
+        System.out.println(equal1);
+        
+        System.out.println("Проверка на равенство объектов: " + student1 + " и " + student3);
+        boolean equal2 = student1.equals(student3);
+        System.out.println(equal2);
     }
 }
