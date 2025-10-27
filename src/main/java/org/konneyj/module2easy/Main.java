@@ -1,5 +1,9 @@
 package org.konneyj.module2easy;
 
+import org.konneyj.module2easy.shapes.Circle;
+import org.konneyj.module2easy.shapes.Rectangle;
+import org.konneyj.module2easy.shapes.Shape;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,6 +16,7 @@ public class Main {
         checkEqualsAndHashCode();
         sortStudentByComparator();
         checkIntroduce();
+        checkInterfaceAndAbstractClass();
     }
 
     public static void checkException() {
@@ -113,6 +118,24 @@ public class Main {
         for (Person person : arr) {
             person.introduce();
         }
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkInterfaceAndAbstractClass() {
+        Shape circle = new Circle(10);
+        circle.draw();
+        Shape rectangle = new Rectangle(5, 2);
+        rectangle.draw();
+
+        List<Shape> shapes = new ArrayList<>();
+        shapes.add(circle);
+        shapes.add(rectangle);
+
+        double sum = 0;
+        for (Shape shape : shapes) {
+            sum += shape.getArea();
+        }
+        System.out.println("Сумма площадей круга " + circle + " и прямоугольника " + rectangle + " = " + sum);
         System.out.println("-".repeat(50));
     }
 }
