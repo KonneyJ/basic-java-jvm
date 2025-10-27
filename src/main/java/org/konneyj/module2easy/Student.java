@@ -5,6 +5,21 @@ public class Student {
     private int age;
     private double averageGrade;
 
+    public Student() {
+
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Student(String name, int age, double averageGrade) {
+        this.name = name;
+        this.age = age;
+        this.averageGrade = averageGrade;
+    }
+
     public String getName() {
         return name;
     }

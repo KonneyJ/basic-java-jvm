@@ -3,6 +3,7 @@ package org.konneyj.module2easy;
 public class Main {
     public static void main(String[] args) {
         checkException();
+        createStudent();
     }
 
     public static void checkException() {
@@ -21,5 +22,15 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("Получено исключение IllegalArgumentException");
         }
+    }
+
+    public static void createStudent() {
+        Student student1 = new Student();
+        Student student2 = new Student("Julie", 25);
+        Student student3 = new Student("Sofia", 28, 10);
+
+        System.out.println(student1);
+        System.out.println(student2);
+        System.out.println(student3);
     }
 }
