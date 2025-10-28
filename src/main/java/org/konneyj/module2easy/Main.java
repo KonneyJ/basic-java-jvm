@@ -22,6 +22,7 @@ public class Main {
         checkInterfaceAndAbstractClass();
         checkStreamAPI();
         checkLoadFromFile();
+        checkHashMap();
     }
 
     public static void checkException() {
@@ -187,6 +188,47 @@ public class Main {
                 }
             }
         }
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkHashMap() {
+        StudentHashMap hashMap = new StudentHashMap();
+        Student student1 = new Student("id1", "Sofia", 28, 10);
+        Student student2 = new Student("id2", "Julie", 25, 10);
+        Student student3 = new Student("id3", "Sonya", 18, 10);
+        List<Student> students = new ArrayList<>();
+
+        hashMap.addStudent(student1.getStudentId(), student1);
+        hashMap.addStudent(student2.getStudentId(), student2);
+        hashMap.addStudent(student3.getStudentId(), student3);
+        hashMap.addStudent(student1.getStudentId(), student1);
+
+        students.add(student1);
+        students.add(student2);
+        students.add(student3);
+
+        long time1 = System.nanoTime();
+        for (Student student : students) {
+            if (student.getStudentId().equals(student3.getStudentId())) {
+                break;
+            }
+        }
+        long time2 = System.nanoTime();
+
+        Student student = hashMap.getStudentById(student3.getStudentId());
+        long time3 = System.nanoTime();
+
+        long listTime = time2 - time1;
+        long mapTime = time3 - time2;
+        System.out.println("Время поиска по списку: " + listTime);
+        System.out.println("Время поиска по хэшмапе: " + mapTime);
+        if ((time3 - time2) < (time2 - time1)) {
+            System.out.println("Реализация хэшмапы успешная");
+        }
+
+        hashMap.deleteStudentById(student2.getStudentId());
+        hashMap.getStudentById(student2.getStudentId());
+
         System.out.println("-".repeat(50));
     }
 }
