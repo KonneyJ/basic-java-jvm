@@ -3,6 +3,7 @@ package org.konneyj.module2easy;
 import org.konneyj.module2easy.shapes.Circle;
 import org.konneyj.module2easy.shapes.Rectangle;
 import org.konneyj.module2easy.shapes.Shape;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -23,6 +24,7 @@ public class Main {
         checkStreamAPI();
         checkLoadFromFile();
         checkHashMap();
+        checkHashMapWithException();
     }
 
     public static void checkException() {
@@ -228,6 +230,50 @@ public class Main {
 
         hashMap.deleteStudentById(student2.getStudentId());
         hashMap.getStudentById(student2.getStudentId());
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkHashMapWithException() {
+        StudentHashMapRefactor hashMap = new StudentHashMapRefactor();
+        Student student1 = new Student("id1", "Sofia", 28, 10);
+
+        System.out.println("Добавление студента с корректным id");
+        hashMap.addStudent(student1.getStudentId(), student1);
+        try {
+            System.out.println("Добавление студента с id = null");
+            hashMap.addStudent(null, student1);
+        } catch (StudentNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("Добавление уже существующего студента");
+        hashMap.addStudent(student1.getStudentId(), student1);
+        System.out.println("Получение студента с корректным id");
+        System.out.println(hashMap.getStudentById(student1.getStudentId()));
+
+        System.out.println("Удаление студента с корректным id");
+        hashMap.deleteStudentById(student1.getStudentId());
+        try {
+            System.out.println("Удаление студента с id = null");
+            hashMap.deleteStudentById(null);
+        } catch (StudentNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            System.out.println("Удаление студента с некорректным id");
+            hashMap.deleteStudentById("id");
+        } catch (StudentNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            System.out.println("Получение студента с некорректным id");
+            hashMap.getStudentById(student1.getStudentId());
+        } catch (StudentNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
 
         System.out.println("-".repeat(50));
     }
