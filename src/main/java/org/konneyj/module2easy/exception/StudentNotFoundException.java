@@ -1,4 +1,4 @@
-package org.konneyj.module2easy;
+package org.konneyj.module2easy.exception;
 
 public class StudentNotFoundException extends RuntimeException {
     public StudentNotFoundException(String message) {

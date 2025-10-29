@@ -1,10 +1,12 @@
-package org.konneyj.module2easy;
+package org.konneyj.module2easy.hashmap;
+
+import org.konneyj.module2easy.model.Student;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class StudentHashMap {
-    private final Map<String,Student> hashMap = new HashMap<>();
+    private final Map<String, Student> hashMap = new HashMap<>();
 
     public void addStudent(String studentId, Student student) {
         if (studentId == null) {

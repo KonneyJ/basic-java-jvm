@@ -1,11 +1,7 @@
-package org.konneyj.module2easy;
-
-import java.util.Objects;
+package org.konneyj.module2easy.model;
 
 public class Student extends Person {
     private String studentId;
-    private String name;
-    private int age;
     private double averageGrade;
 
     public Student() {
@@ -13,20 +9,17 @@ public class Student extends Person {
     }
 
     public Student(String name, int age) {
-        this.name = name;
-        this.age = age;
+        super(name, age);
     }
 
     public Student(String name, int age, double averageGrade) {
-        this.name = name;
-        this.age = age;
+        super(name, age);
         this.averageGrade = averageGrade;
     }
 
     public Student(String studentId, String name, int age, double averageGrade) {
+        super(name, age);
         this.studentId = studentId;
-        this.name = name;
-        this.age = age;
         this.averageGrade = averageGrade;
     }
 
@@ -39,20 +32,8 @@ public class Student extends Person {
         return studentId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
     public double getAverageGrade() {
         return averageGrade;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public void setAverageGrade(double averageGrade) {
@@ -63,10 +44,6 @@ public class Student extends Person {
         this.averageGrade = averageGrade;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
@@ -75,22 +52,9 @@ public class Student extends Person {
     public String toString() {
         return "Student{" +
                 "studentId='" + studentId + '\'' +
-                ", name='" + name + '\'' +
-                ", age=" + age +
+                ", name= " + super.getName() + '\'' +
+                ", age= " + super.getAge() +
                 ", averageGrade=" + averageGrade +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return age == student.age && Double.compare(averageGrade, student.averageGrade) == 0 && Objects.equals(studentId, student.studentId) && Objects.equals(name, student.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(studentId, name, age, averageGrade);
+                "} ";
     }
 }

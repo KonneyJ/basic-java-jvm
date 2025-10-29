@@ -1,9 +1,14 @@
 package org.konneyj.module2easy;
 
+import org.konneyj.module2easy.exception.StudentNotFoundException;
+import org.konneyj.module2easy.hashmap.StudentHashMap;
+import org.konneyj.module2easy.hashmap.StudentHashMapRefactor;
+import org.konneyj.module2easy.model.Person;
+import org.konneyj.module2easy.model.Student;
+import org.konneyj.module2easy.model.Teacher;
 import org.konneyj.module2easy.shapes.Circle;
 import org.konneyj.module2easy.shapes.Rectangle;
 import org.konneyj.module2easy.shapes.Shape;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -243,7 +248,7 @@ public class Main {
         try {
             System.out.println("Добавление студента с id = null");
             hashMap.addStudent(null, student1);
-        } catch (StudentNotFoundException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
 
@@ -257,7 +262,7 @@ public class Main {
         try {
             System.out.println("Удаление студента с id = null");
             hashMap.deleteStudentById(null);
-        } catch (StudentNotFoundException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
 

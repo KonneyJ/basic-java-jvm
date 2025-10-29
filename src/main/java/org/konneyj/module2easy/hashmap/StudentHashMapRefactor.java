@@ -1,14 +1,17 @@
-package org.konneyj.module2easy;
+package org.konneyj.module2easy.hashmap;
+
+import org.konneyj.module2easy.exception.StudentNotFoundException;
+import org.konneyj.module2easy.model.Student;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class StudentHashMapRefactor {
-    private final Map<String,Student> hashMap = new HashMap<>();
+    private final Map<String, Student> hashMap = new HashMap<>();
 
     public void addStudent(String studentId, Student student) {
-        if (studentId == null) {
-            throw new StudentNotFoundException("Id студента не может быть null. Поиск невозможен");
+        if (studentId == null || studentId.isBlank()) {
+            throw new IllegalArgumentException("Id студента не может быть null. Поиск невозможен");
         }
 
         if (hashMap.containsKey(studentId)) {
@@ -20,8 +23,8 @@ public class StudentHashMapRefactor {
     }
 
     public Student getStudentById(String studentId) {
-        if (studentId == null) {
-            throw new StudentNotFoundException("Id студента не может быть null. Поиск невозможен");
+        if (studentId == null || studentId.isBlank()) {
+            throw new IllegalArgumentException("Id студента не может быть null. Поиск невозможен");
         }
 
         if (!hashMap.containsKey(studentId)) {
@@ -32,8 +35,8 @@ public class StudentHashMapRefactor {
     }
 
     public void deleteStudentById(String studentId) {
-        if (studentId == null) {
-            throw new StudentNotFoundException("Id студента не может быть null. Удаление невозможно");
+        if (studentId == null || studentId.isBlank()) {
+            throw new IllegalArgumentException("Id студента не может быть null. Удаление невозможно");
         }
 
         if (!hashMap.containsKey(studentId)) {
