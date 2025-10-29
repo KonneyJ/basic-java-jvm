@@ -1,4 +1,4 @@
-package org.konneyj.student;
+package org.konneyj.module1.student;
 
 public class Student {
     private String name;

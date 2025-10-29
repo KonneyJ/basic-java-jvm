@@ -1,4 +1,4 @@
-package org.konneyj;
+package org.konneyj.module1;
 
 public class DataTypes {
     public static void main(String[] args) {
