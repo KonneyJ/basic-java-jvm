@@ -9,6 +9,7 @@ public class Main {
         checkReliableClass();
         checkEqualAndHashCode();
         checkNotificationService();
+        checkListAndHashMap();
     }
 
     public static void checkReliableClass() {
@@ -58,7 +59,30 @@ public class Main {
         List<NotificationSender> list = List.of(new EmailSender(), new SmsSender(), new PushSender());
         SenderService service = new SenderService(list);
         service.send("Сообщение отправлено");
-        
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkListAndHashMap() {
+        List<String> emails = List.of("julie@yandex.ru", "dima@gmail.com", "sofia@yandex.ru", "dima@gmail.com",
+                "julie@yandex.ru");
+        System.out.println("Размер списка emailов: " + emails.size());
+
+        Set<String> emailSet = new HashSet<>();
+        for (String email : emails) {
+            emailSet.add(email);
+        }
+        System.out.println("Размер сета emailов: " + emailSet.size());
+
+        Map<String, Integer> domains = new HashMap<>();
+        for (String email : emails) {
+            String domain = email.split("@")[1];
+            domains.put(domain, domains.getOrDefault(domain, 0) + 1);
+        }
+        System.out.println("Список уникальных доменов и их количество");
+        System.out.println(domains.keySet());
+        System.out.println(domains.values());
+
         System.out.println("-".repeat(50));
     }
 }
