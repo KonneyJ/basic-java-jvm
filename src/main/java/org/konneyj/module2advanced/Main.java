@@ -10,6 +10,7 @@ public class Main {
         checkEqualAndHashCode();
         checkNotificationService();
         checkListAndHashMap();
+        checkComparableAndComparator();
     }
 
     public static void checkReliableClass() {
@@ -82,6 +83,48 @@ public class Main {
         System.out.println("Список уникальных доменов и их количество");
         System.out.println(domains.keySet());
         System.out.println(domains.values());
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkComparableAndComparator() {
+        List<Product> products = new ArrayList<>(List.of(new Product("Сыр", 0.3, 250),
+                new Product("Молоко", 1, 90),
+                new Product("Рис", 0.8, 100),
+                new Product("Стиральный порошок", 3.0, 400)));
+
+        // Comparable для сортировке по цене
+        Collections.sort(products);
+        System.out.println("Сортировка списка по цене");
+        for (Product product : products) {
+            System.out.println(product);
+        }
+
+        // Comparator для сортировки по названию
+        Collections.sort(products, new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
+        System.out.println("Сортировка списка по названию");
+        for (Product product : products) {
+            System.out.println(product);
+        }
+
+        // Comparator для весу в обратном порядке
+        Collections.sort(products, new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return Double.compare(o2.getWeight(), o1.getWeight());
+            }
+        });
+
+        System.out.println("Сортировка списка по весу в обратном порядке");
+        for (Product product : products) {
+            System.out.println(product);
+        }
 
         System.out.println("-".repeat(50));
     }
