@@ -1,14 +1,14 @@
 package org.konneyj.module2advanced;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.konneyj.module2advanced.notification.*;
+
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         checkReliableClass();
         checkEqualAndHashCode();
+        checkNotificationService();
     }
 
     public static void checkReliableClass() {
@@ -51,6 +51,14 @@ public class Main {
         currencies.add(currentcy3);
         System.out.println("Set должен содержать два элемента: " + currencies.size());
 
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkNotificationService() {
+        List<NotificationSender> list = List.of(new EmailSender(), new SmsSender(), new PushSender());
+        SenderService service = new SenderService(list);
+        service.send("Сообщение отправлено");
+        
         System.out.println("-".repeat(50));
     }
 }
