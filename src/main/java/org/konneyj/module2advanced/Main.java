@@ -3,6 +3,8 @@ package org.konneyj.module2advanced;
 import org.konneyj.module2advanced.notification.*;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -12,6 +14,7 @@ public class Main {
         checkListAndHashMap();
         checkComparableAndComparator();
         checkThreadAndRunnable();
+        checkExecutorService();
     }
 
     public static void checkReliableClass() {
@@ -162,5 +165,28 @@ public class Main {
         long endTime2 = System.nanoTime();
         long diff2 = (endTime2 - startTime2) / 1_000_000_000;
         System.out.println("Время выполнения потоков параллельно: " + diff2 + " секунд");
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkExecutorService() {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        System.out.println("Создан ExecutorService на 3 потока: " + executor);
+        List<Downloader> loaders = new ArrayList<>(List.of(new Downloader(), new Downloader(), new Downloader(),
+                new Downloader(), new Downloader()));
+
+        try {
+            for (Downloader loader : loaders) {
+                executor.submit(loader);
+                System.out.println("Состояние ExecutorService: " + executor);
+            }
+
+            executor.shutdown();
+        } finally {
+            if (!executor.isShutdown()) {
+                executor.shutdownNow();
+            }
+            System.out.println("Состояние ExecutorService в блоке finally: " + executor);
+        }
+        System.out.println("-".repeat(50));
     }
 }
