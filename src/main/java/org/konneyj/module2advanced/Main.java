@@ -3,6 +3,7 @@ package org.konneyj.module2advanced;
 import org.konneyj.module2advanced.notification.*;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,6 +16,7 @@ public class Main {
         checkComparableAndComparator();
         checkThreadAndRunnable();
         checkExecutorService();
+        checkCompletableFuture();
     }
 
     public static void checkReliableClass() {
@@ -187,6 +189,39 @@ public class Main {
             }
             System.out.println("Состояние ExecutorService в блоке finally: " + executor);
         }
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkCompletableFuture() {
+        System.out.println("Task submitted");
+
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                System.out.println("API call in progress... (sleeping 2s)");
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("API call interrupted", e);
+            }
+            return "{\"data\": \"sample response from API\"}";
+        });
+
+        future
+                .thenApply(response -> {
+                    System.out.println("Parsing JSON response...");
+                    return response.replace("\"", "")
+                            .replace("{", "")
+                            .replace("}", "")
+                            .trim();
+                })
+                .thenAccept(parsedData -> {
+                    System.out.println("Final result: " + parsedData);
+                    System.out.println("Processing completed!");
+                });
+
+        // Основной поток продолжает работу немедленно
+        System.out.println("Main thread continues immediately after submitting the task.");
+
         System.out.println("-".repeat(50));
     }
 }
