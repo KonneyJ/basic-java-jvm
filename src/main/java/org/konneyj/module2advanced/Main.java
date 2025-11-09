@@ -14,9 +14,10 @@ public class Main {
         checkNotificationService();
         checkListAndHashMap();
         checkComparableAndComparator();
-        checkThreadAndRunnable();
+        //checkThreadAndRunnable();
         checkExecutorService();
         checkCompletableFuture();
+        checkExceptionally();
     }
 
     public static void checkReliableClass() {
@@ -207,6 +208,44 @@ public class Main {
         });
 
         future
+                .thenApply(response -> {
+                    System.out.println("Parsing JSON response...");
+                    return response.replace("\"", "")
+                            .replace("{", "")
+                            .replace("}", "")
+                            .trim();
+                })
+                .thenAccept(parsedData -> {
+                    System.out.println("Final result: " + parsedData);
+                    System.out.println("Processing completed!");
+                });
+
+        // Основной поток продолжает работу немедленно
+        System.out.println("Main thread continues immediately after submitting the task.");
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkExceptionally() {
+        System.out.println("Task submitted");
+
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                System.out.println("API call in progress... (sleeping 2s)");
+                Thread.sleep(2000);
+                System.out.println("Преднамеренный выброс исключения");
+                throw new RuntimeException();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("API call interrupted", e);
+            }
+        });
+
+        future
+                .exceptionally(throwable -> {
+                    System.out.println("Обработано выброшенное исключение " + throwable.getMessage());
+                    return "";
+                })
                 .thenApply(response -> {
                     System.out.println("Parsing JSON response...");
                     return response.replace("\"", "")
