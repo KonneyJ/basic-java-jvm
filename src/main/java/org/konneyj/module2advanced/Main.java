@@ -14,10 +14,11 @@ public class Main {
         checkNotificationService();
         checkListAndHashMap();
         checkComparableAndComparator();
-        //checkThreadAndRunnable();
+        checkThreadAndRunnable();
         checkExecutorService();
         checkCompletableFuture();
         checkExceptionally();
+        checkCombine();
     }
 
     public static void checkReliableClass() {
@@ -223,6 +224,12 @@ public class Main {
         // Основной поток продолжает работу немедленно
         System.out.println("Main thread continues immediately after submitting the task.");
 
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         System.out.println("-".repeat(50));
     }
 
@@ -261,6 +268,47 @@ public class Main {
         // Основной поток продолжает работу немедленно
         System.out.println("Main thread continues immediately after submitting the task.");
 
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         System.out.println("-".repeat(50));
+    }
+
+    public static void checkCombine() {
+        CompletableFuture<String> futureProfile = CompletableFuture.supplyAsync(() -> {
+            try {
+                System.out.println("Запрос профиля пользователя (working 2s)");
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("API call interrupted", e);
+            }
+            return "Profile";
+        });
+
+        CompletableFuture<List<String>> futureOrders = CompletableFuture.supplyAsync(() -> {
+            try {
+                System.out.println("Запрос заказов пользователя (working 3s)");
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("API call interrupted", e);
+            }
+            return List.of("Order1", "Order2", "Order3");
+        });
+
+        long startTime = System.nanoTime();
+        DashboardDTO futureDto = futureProfile
+                .thenCombine(futureOrders, (profile, orders) -> {
+                    System.out.println("Both data sources loaded. Combining results...");
+                    return new DashboardDTO(profile, orders);
+                }).join();
+        long endTime = System.nanoTime();
+        long time = (endTime - startTime) / 1_000_000_000;
+        System.out.println("Время запросов должно составлять 3 секунды: " + time);
+        System.out.println(futureDto);
     }
 }
