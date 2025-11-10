@@ -8,25 +8,12 @@ public class BankAccount {
     }
 
     public BankAccount(String ownerName, double balance) {
-        if (ownerName == null || ownerName.isBlank()) {
-            throw new IllegalArgumentException("Имя не может быть пустым");
-        } else {
-            this.ownerName = ownerName;
-        }
-
-        if (balance < 0) {
-            throw new IllegalArgumentException("Баланс не может быть отрицательным");
-        } else {
-            this.balance = balance;
-        }
+        validateName(ownerName);
+        validateBalance(balance);
     }
 
     public BankAccount(String ownerName) {
-        if (ownerName == null || ownerName.isBlank()) {
-            throw new IllegalArgumentException("Имя не может быть пустым");
-        } else {
-            this.ownerName = ownerName;
-        }
+        validateName(ownerName);
     }
 
     public String getOwnerName() {
@@ -34,11 +21,7 @@ public class BankAccount {
     }
 
     public void setOwnerName(String ownerName) {
-        if (ownerName == null || ownerName.isBlank()) {
-            throw new IllegalArgumentException("Имя не может быть пустым");
-        } else {
-            this.ownerName = ownerName;
-        }
+        validateName(ownerName);
     }
 
     public double getBalance() {
@@ -46,6 +29,18 @@ public class BankAccount {
     }
 
     public void setBalance(double balance) {
+        validateBalance(balance);
+    }
+
+    private void validateName(String ownerName) {
+        if (ownerName == null || ownerName.isBlank()) {
+            throw new IllegalArgumentException("Имя не может быть пустым");
+        } else {
+            this.ownerName = ownerName;
+        }
+    }
+
+    private void validateBalance(double balance) {
         if (balance < 0) {
             throw new IllegalArgumentException("Баланс не может быть отрицательным");
         } else {

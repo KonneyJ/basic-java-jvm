@@ -2,6 +2,7 @@ package org.konneyj.module2advanced;
 
 import org.konneyj.module2advanced.notification.*;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -60,6 +61,8 @@ public class Main {
         System.out.println("Set должен содержать один элемент: " + currencies.size());
         currencies.add(currentcy3);
         System.out.println("Set должен содержать два элемента: " + currencies.size());
+        System.out.println("Set содержит currency1: " + currencies.contains(currency1));
+        System.out.println("Set содержит currency2: " + currencies.contains(currency2));
 
         System.out.println("-".repeat(50));
     }
@@ -77,10 +80,7 @@ public class Main {
                 "julie@yandex.ru");
         System.out.println("Размер списка emailов: " + emails.size());
 
-        Set<String> emailSet = new HashSet<>();
-        for (String email : emails) {
-            emailSet.add(email);
-        }
+        Set<String> emailSet = new HashSet<>(emails);
         System.out.println("Размер сета emailов: " + emailSet.size());
 
         Map<String, Integer> domains = new HashMap<>();
@@ -147,7 +147,7 @@ public class Main {
             loader.run();
         }
         long endTime1 = System.nanoTime();
-        long diff1 = (endTime1 - startTime1) / 1_000_000_000;
+        long diff1 = Duration.ofNanos(endTime1 - startTime1).toSeconds();
         System.out.println("Время выполнения потоков последовательно: " + diff1 + " секунд");
 
         List<Thread> threads = new ArrayList<>();
@@ -167,7 +167,7 @@ public class Main {
         thread5.join();
 
         long endTime2 = System.nanoTime();
-        long diff2 = (endTime2 - startTime2) / 1_000_000_000;
+        long diff2 = Duration.ofNanos(endTime2 - startTime2).toSeconds();
         System.out.println("Время выполнения потоков параллельно: " + diff2 + " секунд");
         System.out.println("-".repeat(50));
     }
@@ -307,7 +307,7 @@ public class Main {
                     return new DashboardDTO(profile, orders);
                 }).join();
         long endTime = System.nanoTime();
-        long time = (endTime - startTime) / 1_000_000_000;
+        long time = Duration.ofNanos(endTime - startTime).toSeconds();
         System.out.println("Время запросов должно составлять 3 секунды: " + time);
         System.out.println(futureDto);
     }
