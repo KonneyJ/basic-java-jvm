@@ -1,0 +1,314 @@
+package org.konneyj.module2advanced;
+
+import org.konneyj.module2advanced.notification.*;
+
+import java.time.Duration;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        checkReliableClass();
+        checkEqualAndHashCode();
+        checkNotificationService();
+        checkListAndHashMap();
+        checkComparableAndComparator();
+        checkThreadAndRunnable();
+        checkExecutorService();
+        checkCompletableFuture();
+        checkExceptionally();
+        checkCombine();
+    }
+
+    public static void checkReliableClass() {
+        try {
+            BankAccount account = new BankAccount("", 1000);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Получено исключение " + e.getClass());
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            BankAccount account = new BankAccount("John", -1000);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Получено исключение " + e.getClass());
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            BankAccount account = new BankAccount(null);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Получено исключение " + e.getClass());
+            System.out.println(e.getMessage());
+        }
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkEqualAndHashCode() {
+        Currency currency1 = new Currency("USD", "Dollar");
+        Currency currency2 = new Currency("USD", "US Dollar");
+        Currency currentcy3 = new Currency("EUR", "Euro");
+
+        System.out.println("Проверка объектов на равенство: " + currency1.equals(currency2));
+        System.out.println("Проверка объектов на равенство: " + currency1.equals(currentcy3));
+        System.out.println("Проверка объектов на равенство: " + currency2.equals(currentcy3));
+
+        Set<Currency> currencies = new HashSet<>();
+        currencies.add(currency1);
+        currencies.add(currency2);
+        System.out.println("Set должен содержать один элемент: " + currencies.size());
+        currencies.add(currentcy3);
+        System.out.println("Set должен содержать два элемента: " + currencies.size());
+        System.out.println("Set содержит currency1: " + currencies.contains(currency1));
+        System.out.println("Set содержит currency2: " + currencies.contains(currency2));
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkNotificationService() {
+        List<NotificationSender> list = List.of(new EmailSender(), new SmsSender(), new PushSender());
+        SenderService service = new SenderService(list);
+        service.send("Сообщение отправлено");
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkListAndHashMap() {
+        List<String> emails = List.of("julie@yandex.ru", "dima@gmail.com", "sofia@yandex.ru", "dima@gmail.com",
+                "julie@yandex.ru");
+        System.out.println("Размер списка emailов: " + emails.size());
+
+        Set<String> emailSet = new HashSet<>(emails);
+        System.out.println("Размер сета emailов: " + emailSet.size());
+
+        Map<String, Integer> domains = new HashMap<>();
+        for (String email : emails) {
+            String domain = email.split("@")[1];
+            domains.put(domain, domains.getOrDefault(domain, 0) + 1);
+        }
+        System.out.println("Список уникальных доменов и их количество");
+        System.out.println(domains.keySet());
+        System.out.println(domains.values());
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkComparableAndComparator() {
+        List<Product> products = new ArrayList<>(List.of(new Product("Сыр", 0.3, 250),
+                new Product("Молоко", 1, 90),
+                new Product("Рис", 0.8, 100),
+                new Product("Стиральный порошок", 3.0, 400)));
+
+        // Comparable для сортировке по цене
+        Collections.sort(products);
+        System.out.println("Сортировка списка по цене");
+        for (Product product : products) {
+            System.out.println(product);
+        }
+
+        // Comparator для сортировки по названию
+        Collections.sort(products, new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
+        System.out.println("Сортировка списка по названию");
+        for (Product product : products) {
+            System.out.println(product);
+        }
+
+        // Comparator для весу в обратном порядке
+        Collections.sort(products, new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return Double.compare(o2.getWeight(), o1.getWeight());
+            }
+        });
+
+        System.out.println("Сортировка списка по весу в обратном порядке");
+        for (Product product : products) {
+            System.out.println(product);
+        }
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkThreadAndRunnable() throws InterruptedException {
+        List<Downloader> loaders = new ArrayList<>(List.of(new Downloader(), new Downloader(), new Downloader(),
+                new Downloader(), new Downloader()));
+
+        long startTime1 = System.nanoTime();
+
+        for (Downloader loader : loaders) {
+            loader.run();
+        }
+        long endTime1 = System.nanoTime();
+        long diff1 = Duration.ofNanos(endTime1 - startTime1).toSeconds();
+        System.out.println("Время выполнения потоков последовательно: " + diff1 + " секунд");
+
+        List<Thread> threads = new ArrayList<>();
+        Downloader downloader = new Downloader();
+        Thread thread1 = new Thread(downloader);
+        Thread thread2 = new Thread(downloader);
+        Thread thread3 = new Thread(downloader);
+        Thread thread4 = new Thread(downloader);
+        Thread thread5 = new Thread(downloader);
+
+        threads.addAll(List.of(thread1, thread2, thread3, thread4, thread5));
+        long startTime2 = System.nanoTime();
+
+        for (Thread thr : threads) {
+            thr.start();
+        }
+        thread5.join();
+
+        long endTime2 = System.nanoTime();
+        long diff2 = Duration.ofNanos(endTime2 - startTime2).toSeconds();
+        System.out.println("Время выполнения потоков параллельно: " + diff2 + " секунд");
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkExecutorService() {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        System.out.println("Создан ExecutorService на 3 потока: " + executor);
+        List<Downloader> loaders = new ArrayList<>(List.of(new Downloader(), new Downloader(), new Downloader(),
+                new Downloader(), new Downloader()));
+
+        try {
+            for (Downloader loader : loaders) {
+                executor.submit(loader);
+                System.out.println("Состояние ExecutorService: " + executor);
+            }
+
+            executor.shutdown();
+        } finally {
+            if (!executor.isShutdown()) {
+                executor.shutdownNow();
+            }
+            System.out.println("Состояние ExecutorService в блоке finally: " + executor);
+        }
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkCompletableFuture() {
+        System.out.println("Task submitted");
+
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                System.out.println("API call in progress... (sleeping 2s)");
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("API call interrupted", e);
+            }
+            return "{\"data\": \"sample response from API\"}";
+        });
+
+        future
+                .thenApply(response -> {
+                    System.out.println("Parsing JSON response...");
+                    return response.replace("\"", "")
+                            .replace("{", "")
+                            .replace("}", "")
+                            .trim();
+                })
+                .thenAccept(parsedData -> {
+                    System.out.println("Final result: " + parsedData);
+                    System.out.println("Processing completed!");
+                });
+
+        // Основной поток продолжает работу немедленно
+        System.out.println("Main thread continues immediately after submitting the task.");
+
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkExceptionally() {
+        System.out.println("Task submitted");
+
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                System.out.println("API call in progress... (sleeping 2s)");
+                Thread.sleep(2000);
+                System.out.println("Преднамеренный выброс исключения");
+                throw new RuntimeException();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("API call interrupted", e);
+            }
+        });
+
+        future
+                .exceptionally(throwable -> {
+                    System.out.println("Обработано выброшенное исключение " + throwable.getMessage());
+                    return "";
+                })
+                .thenApply(response -> {
+                    System.out.println("Parsing JSON response...");
+                    return response.replace("\"", "")
+                            .replace("{", "")
+                            .replace("}", "")
+                            .trim();
+                })
+                .thenAccept(parsedData -> {
+                    System.out.println("Final result: " + parsedData);
+                    System.out.println("Processing completed!");
+                });
+
+        // Основной поток продолжает работу немедленно
+        System.out.println("Main thread continues immediately after submitting the task.");
+
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        System.out.println("-".repeat(50));
+    }
+
+    public static void checkCombine() {
+        CompletableFuture<String> futureProfile = CompletableFuture.supplyAsync(() -> {
+            try {
+                System.out.println("Запрос профиля пользователя (working 2s)");
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("API call interrupted", e);
+            }
+            return "Profile";
+        });
+
+        CompletableFuture<List<String>> futureOrders = CompletableFuture.supplyAsync(() -> {
+            try {
+                System.out.println("Запрос заказов пользователя (working 3s)");
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("API call interrupted", e);
+            }
+            return List.of("Order1", "Order2", "Order3");
+        });
+
+        long startTime = System.nanoTime();
+        DashboardDTO futureDto = futureProfile
+                .thenCombine(futureOrders, (profile, orders) -> {
+                    System.out.println("Both data sources loaded. Combining results...");
+                    return new DashboardDTO(profile, orders);
+                }).join();
+        long endTime = System.nanoTime();
+        long time = Duration.ofNanos(endTime - startTime).toSeconds();
+        System.out.println("Время запросов должно составлять 3 секунды: " + time);
+        System.out.println(futureDto);
+    }
+}
