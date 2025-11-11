@@ -79,4 +79,57 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <!-- Профиль для разработки -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+        </profile>
+
+        <!-- Профиль для продакшена -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>application-${activatedProperties}.properties</include>
+                    <!-- Включаем общие файлы -->
+                    <include>application.properties</include>
+                </includes>
+            </resource>
+            <!-- Копируем все остальные ресурсы без фильтрации -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>application-*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <finalName>${project.artifactId}-${activatedProperties}</finalName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
