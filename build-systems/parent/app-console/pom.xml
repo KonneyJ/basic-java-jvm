@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.konneyj</groupId>
         <artifactId>parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.konneyj</groupId>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>org.konneyj</groupId>
             <artifactId>core-lib</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
