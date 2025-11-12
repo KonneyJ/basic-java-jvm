@@ -129,6 +129,43 @@
                     <finalName>${project.artifactId}-${activatedProperties}</finalName>
                 </configuration>
             </plugin>
+
+            <!-- Плагин для создания fat-jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Главный класс для запуска -->
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.konneyj.module3.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                            <!-- Имя выходного файла -->
+                            <finalName>${project.artifactId}-fat</finalName>
+                            <!-- Исключение сигнатур, чтобы избежать ошибок при запуске -->
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
