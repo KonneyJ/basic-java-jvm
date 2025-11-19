@@ -2,6 +2,7 @@ package org.konneyj.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.konneyj.dto.CreateBookDto;
+import org.konneyj.dto.UpdatedBookDto;
 import org.konneyj.mapper.BookMapper;
 import org.konneyj.model.Book;
 import org.springframework.http.HttpStatus;
@@ -49,5 +50,11 @@ public class BookController {
     public ResponseEntity<Book> createBook(@RequestBody CreateBookDto newBook) {
         log.info("POST запрос на создание объекта {}", newBook);
         return ResponseEntity.status(HttpStatus.CREATED).body(BookMapper.toBook(newBook));
+    }
+
+    @PutMapping("/books/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody UpdatedBookDto updatedBook) {
+        log.info("PUT запрос на обновление объекта {}", updatedBook);
+        return ResponseEntity.ok(BookMapper.toBook(updatedBook));
     }
 }
