@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.konneyj.dto.CreateBookDto;
 import org.konneyj.mapper.BookMapper;
 import org.konneyj.model.Book;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -34,9 +36,18 @@ public class BookController {
                 newBook.getPages());
     }*/
 
+    /*
+    Вторая версия реализации эндпоинта @PostMapping
+
     @PostMapping("/books")
     public Book createBook(@RequestBody CreateBookDto newBook) {
         log.info("POST запрос на создание объекта {}", newBook);
         return BookMapper.toBook(newBook);
+    }*/
+
+    @PostMapping("/books")
+    public ResponseEntity<Book> createBook(@RequestBody CreateBookDto newBook) {
+        log.info("POST запрос на создание объекта {}", newBook);
+        return ResponseEntity.status(HttpStatus.CREATED).body(BookMapper.toBook(newBook));
     }
 }
