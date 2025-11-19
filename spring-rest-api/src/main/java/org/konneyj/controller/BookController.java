@@ -57,4 +57,10 @@ public class BookController {
         log.info("PUT запрос на обновление объекта {}", updatedBook);
         return ResponseEntity.ok(BookMapper.toBook(updatedBook));
     }
+
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable int id) {
+        log.info("DELETE запрос на удаление объекта с id {}", id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
