@@ -3,6 +3,7 @@ package org.konneyj.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.konneyj.dto.CreateBookDto;
 import org.konneyj.dto.UpdatedBookDto;
+import org.konneyj.exception.BookNotFoundException;
 import org.konneyj.mapper.BookMapper;
 import org.konneyj.model.Book;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,12 @@ public class BookController {
 
     @GetMapping("/books/{id}")
     public Book getBookById(@PathVariable int id) {
+        log.info("GET запрос на получение объекта с id = {}", id);
+
+        if (id < 1) {
+            throw new BookNotFoundException("Книга с id = " + id + " не найдена!");
+        }
+        
         return new Book(id, "BookName", "BookAuthor", 1900, 100);
     }
 
