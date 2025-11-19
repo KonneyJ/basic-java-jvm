@@ -1,6 +1,8 @@
 package org.konneyj.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.konneyj.dto.CreateBookDto;
+import org.konneyj.mapper.BookMapper;
 import org.konneyj.model.Book;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +24,19 @@ public class BookController {
         return new Book(1, title, "BookAuthor", 1800, 1000);
     }
 
+    /*
+    Первая версия реализации эндпоинта @PostMapping
+
     @PostMapping("/books")
     public Book createBook(@RequestBody Book newBook) {
         log.info("POST запрос на создание объекта {}", newBook);
         return new Book(newBook.getId(), newBook.getTitle(), newBook.getAuthor(), newBook.getPublishedYear(),
                 newBook.getPages());
+    }*/
+
+    @PostMapping("/books")
+    public Book createBook(@RequestBody CreateBookDto newBook) {
+        log.info("POST запрос на создание объекта {}", newBook);
+        return BookMapper.toBook(newBook);
     }
 }
