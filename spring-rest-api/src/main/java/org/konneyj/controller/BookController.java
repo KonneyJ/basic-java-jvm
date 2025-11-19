@@ -3,6 +3,7 @@ package org.konneyj.controller;
 import org.konneyj.model.Book;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,5 +16,10 @@ public class BookController {
     @GetMapping("/books/{id}")
     public Book getBookById(@PathVariable int id) {
         return new Book(id, "BookName", "BookAuthor", 1900, 100);
+    }
+
+    @GetMapping("/books/search")
+    public Book searchBooks(@RequestParam(required = false) String title) {
+        return new Book(1, title, "BookAuthor", 1800, 1000);
     }
 }
