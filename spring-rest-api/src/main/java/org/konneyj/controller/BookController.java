@@ -1,11 +1,10 @@
 package org.konneyj.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.konneyj.model.Book;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 public class BookController {
     @GetMapping("/book")
@@ -21,5 +20,12 @@ public class BookController {
     @GetMapping("/books/search")
     public Book searchBooks(@RequestParam(required = false) String title) {
         return new Book(1, title, "BookAuthor", 1800, 1000);
+    }
+
+    @PostMapping("/books")
+    public Book createBook(@RequestBody Book newBook) {
+        log.info("POST запрос на создание объекта {}", newBook);
+        return new Book(newBook.getId(), newBook.getTitle(), newBook.getAuthor(), newBook.getPublishedYear(),
+                newBook.getPages());
     }
 }
