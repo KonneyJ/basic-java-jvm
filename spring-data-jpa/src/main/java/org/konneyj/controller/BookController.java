@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -57,5 +58,19 @@ public class BookController {
         log.info("PUT запрос на обновление объекта с id = {} объектом {}", id, updateBook);
 
         return bookService.updateBook(id, updateBook);
+    }
+
+    @GetMapping("/search-by-author")
+    public Collection<BookDto> searchByAuthor(@RequestParam String author) {
+        log.info("GET запрос на поиск книг по автору {}", author);
+
+        return bookService.searchByAuthor(author);
+    }
+
+    @GetMapping("/search-by-title-author")
+    public BookDto searchByTitleAndAuthor(@RequestParam String title, @RequestParam String author) {
+        log.info("GET запрос на поиск книги по названию {} и автору {}", title, author);
+
+        return bookService.searchByTitleAndAuthor(title, author);
     }
 }

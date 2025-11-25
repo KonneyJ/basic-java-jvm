@@ -10,6 +10,7 @@ import org.konneyj.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,5 +46,19 @@ public class BookServiceImpl implements BookService {
     public BookDto updateBook(Long id, UpdateBookDto updateBook) {
         Book savedBook = bookRepository.save(BookMapper.toBook(updateBook));
         return BookMapper.toBookDto(savedBook);
+    }
+
+    @Override
+    public Collection<BookDto> searchByAuthor(String author) {
+        Collection<Book> books = bookRepository.findByAuthor(author);
+        return books.stream()
+                .map(BookMapper::toBookDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public BookDto searchByTitleAndAuthor(String title, String author) {
+        Optional<Book> book = bookRepository.findByTitleAndAuthor(title, author);
+        return BookMapper.toBookDto(book.get());
     }
 }
