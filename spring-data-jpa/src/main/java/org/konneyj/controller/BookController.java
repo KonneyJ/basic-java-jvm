@@ -1,0 +1,61 @@
+package org.konneyj.controller;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.konneyj.dto.BookDto;
+import org.konneyj.dto.NewBookDto;
+import org.konneyj.dto.UpdateBookDto;
+import org.konneyj.service.BookService;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collection;
+
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/books")
+public class BookController {
+    private final BookService bookService;
+
+    @PostMapping
+    public BookDto createBook(@RequestBody NewBookDto newBook) {
+        log.info("POST запрос на создание объекта с newBookDto = {}", newBook);
+
+        return bookService.saveBook(newBook);
+    }
+
+    @GetMapping("/{id}")
+    public BookDto getBookById(@PathVariable Long id) {
+        log.info("GET запрос на получение объекта с id = {}", id);
+
+        return bookService.findBookById(id);
+    }
+
+    @GetMapping
+    public Collection<BookDto> getAllBooks() {
+        log.info("GET запрос на получение всех объектов");
+
+        return bookService.getAllBooks();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteBookById(@PathVariable Long id) {
+        log.info("DELETE запрос на удаление объекта с id = {}", id);
+
+        bookService.deleteBookById(id);
+    }
+
+    @PutMapping("/{id}")
+    public BookDto updateBook(@PathVariable Long id, @RequestBody UpdateBookDto updateBook) {
+        log.info("PUT запрос на обновление объекта с id = {} объектом {}", id, updateBook);
+
+        return bookService.updateBook(id, updateBook);
+    }
+}

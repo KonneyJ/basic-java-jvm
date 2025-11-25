@@ -1,15 +1,19 @@
 package org.konneyj.service;
 
-import org.konneyj.model.Book;
+import org.konneyj.dto.BookDto;
+import org.konneyj.dto.NewBookDto;
+import org.konneyj.dto.UpdateBookDto;
 
 import java.util.Collection;
 
 public interface BookService {
-    Book saveBook(Book book);
+    BookDto saveBook(NewBookDto newBook);
 
-    Book findBookById(Long id);
+    BookDto findBookById(Long id);
 
-    Collection<Book> getAllBooks();
+    Collection<BookDto> getAllBooks();
 
     void deleteBookById(Long id);
+
+    BookDto updateBook(Long id, UpdateBookDto updateBook);
 }
