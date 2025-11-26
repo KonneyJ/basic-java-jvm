@@ -2,10 +2,10 @@ package org.konneyj.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.konneyj.dto.BookDto;
-import org.konneyj.dto.NewBookDto;
-import org.konneyj.dto.UpdateBookDto;
-import org.konneyj.service.BookService;
+import org.konneyj.dto.book.BookDto;
+import org.konneyj.dto.book.NewBookDto;
+import org.konneyj.dto.book.UpdateBookDto;
+import org.konneyj.service.book.BookService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

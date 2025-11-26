@@ -1,4 +1,4 @@
-package org.konneyj.dto;
+package org.konneyj.dto.book;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +9,6 @@ import lombok.ToString;
 @Setter
 public class NewBookDto {
     private String title;
-    private String author;
+    private Long authorId;
     private Integer publishedYear;
 }

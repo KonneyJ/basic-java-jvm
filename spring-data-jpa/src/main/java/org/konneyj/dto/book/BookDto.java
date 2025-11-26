@@ -1,4 +1,4 @@
-package org.konneyj.dto;
+package org.konneyj.dto.book;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

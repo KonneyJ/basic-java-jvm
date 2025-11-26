@@ -1,8 +1,8 @@
-package org.konneyj.service;
+package org.konneyj.service.book;
 
-import org.konneyj.dto.BookDto;
-import org.konneyj.dto.NewBookDto;
-import org.konneyj.dto.UpdateBookDto;
+import org.konneyj.dto.book.BookDto;
+import org.konneyj.dto.book.NewBookDto;
+import org.konneyj.dto.book.UpdateBookDto;
 
 import java.util.Collection;
 
