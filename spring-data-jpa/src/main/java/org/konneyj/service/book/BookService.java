@@ -20,4 +20,6 @@ public interface BookService {
     Collection<BookDto> searchByAuthor(String author);
 
     BookDto searchByTitleAndAuthor(String title, String author);
+
+    Collection<BookDto> searchByPartTitle(String searchText);
 }

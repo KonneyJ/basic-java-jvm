@@ -73,4 +73,11 @@ public class BookController {
 
         return bookService.searchByTitleAndAuthor(title, author);
     }
+
+    @GetMapping("/search-by-part-title")
+    public Collection<BookDto> searchByPartTitle(@RequestParam String searchText) {
+        log.info("GET запрос на поиск книги по части названия {}", searchText);
+
+        return bookService.searchByPartTitle(searchText);
+    }
 }
