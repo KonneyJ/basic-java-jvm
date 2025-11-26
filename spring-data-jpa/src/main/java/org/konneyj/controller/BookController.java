@@ -3,6 +3,7 @@ package org.konneyj.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.konneyj.dto.book.BookDto;
+import org.konneyj.dto.book.BookWithAuthorDto;
 import org.konneyj.dto.book.NewBookDto;
 import org.konneyj.dto.book.UpdateBookDto;
 import org.konneyj.service.book.BookService;
@@ -79,5 +80,12 @@ public class BookController {
         log.info("GET запрос на поиск книги по части названия {}", searchText);
 
         return bookService.searchByPartTitle(searchText);
+    }
+
+    @PostMapping("/with-author")
+    public BookDto createBookWithAuthor(@RequestBody BookWithAuthorDto newBook) {
+        log.info("POST запрос на создание объекта с BookWithAuthorDto = {}", newBook);
+
+        return bookService.createBookWithAuthor(newBook);
     }
 }

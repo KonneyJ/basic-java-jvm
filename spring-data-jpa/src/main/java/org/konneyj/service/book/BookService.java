@@ -1,6 +1,7 @@
 package org.konneyj.service.book;
 
 import org.konneyj.dto.book.BookDto;
+import org.konneyj.dto.book.BookWithAuthorDto;
 import org.konneyj.dto.book.NewBookDto;
 import org.konneyj.dto.book.UpdateBookDto;
 
@@ -22,4 +23,6 @@ public interface BookService {
     BookDto searchByTitleAndAuthor(String title, String author);
 
     Collection<BookDto> searchByPartTitle(String searchText);
+
+    BookDto createBookWithAuthor(BookWithAuthorDto newBook);
 }
