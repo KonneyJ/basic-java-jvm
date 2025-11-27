@@ -3,7 +3,7 @@ package org.konneyj.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.konneyj.dto.book.BookDto;
-import org.konneyj.dto.book.BookWithAuthorDto;
+import org.konneyj.dto.book.CreateBookWithAuthorDto;
 import org.konneyj.dto.book.NewBookDto;
 import org.konneyj.dto.book.UpdateBookDto;
 import org.konneyj.service.book.BookService;
@@ -83,7 +83,7 @@ public class BookController {
     }
 
     @PostMapping("/with-author")
-    public BookDto createBookWithAuthor(@RequestBody BookWithAuthorDto newBook) {
+    public BookDto createBookWithAuthor(@RequestBody CreateBookWithAuthorDto newBook) {
         log.info("POST запрос на создание объекта с BookWithAuthorDto = {}", newBook);
 
         return bookService.createBookWithAuthor(newBook);

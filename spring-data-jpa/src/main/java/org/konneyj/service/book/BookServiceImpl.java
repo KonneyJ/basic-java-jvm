@@ -3,9 +3,10 @@ package org.konneyj.service.book;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.konneyj.dto.book.BookDto;
-import org.konneyj.dto.book.BookWithAuthorDto;
+import org.konneyj.dto.book.CreateBookWithAuthorDto;
 import org.konneyj.dto.book.NewBookDto;
 import org.konneyj.dto.book.UpdateBookDto;
+import org.konneyj.exception.NotFoundException;
 import org.konneyj.mapper.BookMapper;
 import org.konneyj.model.Author;
 import org.konneyj.model.Book;
@@ -37,7 +38,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto findBookById(Long id) {
-        Book findedBook = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Книга не найдена"));
+        Book findedBook = bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Книга не найдена"));
 
         return BookMapper.toBookDto(findedBook);
     }
@@ -47,7 +48,7 @@ public class BookServiceImpl implements BookService {
         Collection<Book> books = bookRepository.findAll();
         books.forEach(book -> log.info("Имя автора книги {}", book.getAuthor().getName()));
 
-        return bookRepository.findAll().stream()
+        return books.stream()
                 .map(BookMapper::toBookDto)
                 .collect(Collectors.toList());
     }
@@ -60,7 +61,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto updateBook(Long id, UpdateBookDto updateBook) {
         Author author = authorRepository.findById(updateBook.getAuthorId())
-                .orElseThrow(() -> new RuntimeException("Автор не найден"));
+                .orElseThrow(() -> new NotFoundException("Автор не найден"));
         Book savedBook = bookRepository.save(BookMapper.toBook(updateBook, author));
 
         return BookMapper.toBookDto(savedBook);
@@ -78,12 +79,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto searchByTitleAndAuthor(String title, String author) {
         Optional<Book> book = bookRepository.findByTitleAndAuthor_Name(title, author);
+
         return BookMapper.toBookDto(book.get());
     }
 
     @Override
     public Collection<BookDto> searchByPartTitle(String searchText) {
         Collection<Book> books = bookRepository.findByPartOfTitle(searchText);
+
         return books.stream()
                 .map(BookMapper::toBookDto)
                 .collect(Collectors.toList());
@@ -91,7 +94,7 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public BookDto createBookWithAuthor(BookWithAuthorDto newBook) {
+    public BookDto createBookWithAuthor(CreateBookWithAuthorDto newBook) {
         Author author = authorRepository.save(new Author(null, newBook.getAuthorName()));
 
         Random random = new Random();

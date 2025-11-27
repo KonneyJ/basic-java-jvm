@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.konneyj.model.Book;
+import org.konneyj.dto.book.BookDto;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ import java.util.List;
 public class AuthorDto {
     private Long id;
     private String name;
-    private List<Book> books;
+    private List<String> books;
 }

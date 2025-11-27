@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Setter
-public class BookWithAuthorDto {
+public class CreateBookWithAuthorDto {
     private String title;
     private String authorName;
     private Integer publishedYear;
